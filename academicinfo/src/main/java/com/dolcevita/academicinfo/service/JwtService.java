@@ -1,10 +1,11 @@
-package com.dolcevita.academicinfo.config;
+package com.dolcevita.academicinfo.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,11 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = "f23dcfbb7c50130f12adb2c68a5fef5b4f439c75068e3ff9eb7f1787d8e8797c";
+    @Value("${token.signing.key}")
+    private String SECRET_KEY;
+    @Value("${token.expiration.minutes:60}")
+    private long minutesToExpire;
+
     public String extractUsername(String token) {
         return extractClaim(token,Claims::getSubject);
     }
@@ -35,7 +40,7 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000*60*24))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * minutesToExpire))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

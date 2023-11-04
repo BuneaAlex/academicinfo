@@ -1,5 +1,6 @@
-package com.dolcevita.academicinfo.config;
+package com.dolcevita.academicinfo.utils;
 
+import com.dolcevita.academicinfo.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
