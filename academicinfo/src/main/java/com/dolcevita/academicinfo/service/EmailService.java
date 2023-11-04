@@ -1,5 +1,6 @@
 package com.dolcevita.academicinfo.service;
 
+import com.dolcevita.academicinfo.dto.ExamDto;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class EmailService {
     private final SpringTemplateEngine templateEngine;
 
     @Async
-    public void sendEmail(String to, String subject, String body) {
+    public void sendTextEmail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("confirmation.abc.zzz@gmail.com");
         message.setTo(to);
@@ -32,7 +33,7 @@ public class EmailService {
     }
 
     @Async
-    public void sendHtmlEmail(String to, String name, String subject, String body, String link, String buttonMessage, String end) {
+    public void sendConfirmationEmail(String to, String name, String subject, String body, String link, String buttonMessage, String end) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message,
@@ -51,6 +52,30 @@ public class EmailService {
 
             helper.setTo(to);
             helper.setSubject(subject);
+            helper.setText(emailContent, true);
+
+            mailSender.send(message);
+        } catch (MessagingException ignored) {
+        }
+    }
+
+    @Async
+    public void sendExamNotification(String to, ExamDto examDto) {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = null;
+        try {
+            helper = new MimeMessageHelper(message,
+                    MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                    StandardCharsets.UTF_8.name());
+
+
+            Context context = new Context();
+            context.setVariable("examDto", examDto);
+
+            String emailContent = templateEngine.process("exam-template", context);
+
+            helper.setTo(to);
+            helper.setSubject("Exam notification");
             helper.setText(emailContent, true);
 
             mailSender.send(message);

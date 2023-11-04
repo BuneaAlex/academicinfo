@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Exam Notification</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      background-color: #fff;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #333;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1 th:text="${examDto.title}">Exam Title</h1>
+  <p>
+    You have an upcoming exam scheduled. Please find the details below:
+  </p>
+  <ul>
+    <li>Start Date and Time: <span th:text="${examDto.startDateTime}">[Start Date and Time]</span></li>
+    <li>End Date and Time: <span th:text="${examDto.endDateTime}">[End Date and Time]</span></li>
+  </ul>
+  <p>
+    Make sure to be prepared and arrive on time for your exam.
+  </p>
+  <p>
+    Good luck!
+  </p>
+</div>
+</body>
+</html>

@@ -48,6 +48,6 @@ public class StudentService {
     }
 
     public StudentDto getStudent(Integer registrationNumber) {
-        return ((Student) studentRepository.findByRegistrationNumber(registrationNumber).orElseThrow(() -> new ResourceNotFoundException("Student not found"))).toDto();
+        return studentRepository.findByRegistrationNumber(registrationNumber).orElseThrow(() -> new ResourceNotFoundException("Student not found")).toDto();
     }
 }

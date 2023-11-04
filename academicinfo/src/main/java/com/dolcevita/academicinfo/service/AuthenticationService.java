@@ -8,7 +8,9 @@ import com.dolcevita.academicinfo.exceptions.EmailAlreadyExistsException;
 import com.dolcevita.academicinfo.exceptions.InvalidEmailException;
 import com.dolcevita.academicinfo.exceptions.NotConfirmedException;
 import com.dolcevita.academicinfo.exceptions.ResourceNotFoundException;
+import com.dolcevita.academicinfo.model.Student;
 import com.dolcevita.academicinfo.model.User;
+import com.dolcevita.academicinfo.repository.StudentRepository;
 import com.dolcevita.academicinfo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -36,10 +39,11 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .registerToken(registerToken)
+                .registerTokenExpiration(LocalDateTime.now().plusDays(1))
                 .isMailConfirmed(false)
                 .build();
         userRepository.save(user);
-        emailService.sendHtmlEmail(request.getEmail(), request.getEmail(), "Confirm your email", "We want to ensure this is your email", "http://localhost:8080/auth/confirm?token=" + registerToken, "Confirm email", "Thank you for registering!");
+        emailService.sendConfirmationEmail(request.getEmail(), request.getEmail(), "Confirm your email", "We want to ensure this is your email", "http://localhost:8080/auth/confirm?token=" + registerToken, "Confirm email", "Thank you for registering!");
         return new RegisterResponse("Registered");
     }
 
@@ -57,6 +61,10 @@ public class AuthenticationService {
 
     public void confirm(String token) {
         User user = userRepository.findByRegisterToken(token).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        if (user.getRegisterTokenExpiration().isBefore(LocalDateTime.now())) {
+            userRepository.delete(user);
+            throw new ResourceNotFoundException("Token expired");
+        }
         user.setRegisterToken(null);
         user.setMailConfirmed(true);
         userRepository.save(user);

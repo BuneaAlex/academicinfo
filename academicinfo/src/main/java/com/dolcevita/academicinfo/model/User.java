@@ -51,6 +51,9 @@ public class User implements UserDetails {
     @Column(name = "registerToken")
     private String registerToken;
 
+    @Column(name = "registerTokenExpiration")
+    private LocalDateTime registerTokenExpiration;
+
     @Column(name = "isMailConfirmed")
     private boolean isMailConfirmed;
 

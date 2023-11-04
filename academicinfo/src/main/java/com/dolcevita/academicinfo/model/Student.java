@@ -14,7 +14,7 @@ import lombok.*;
 public class Student extends User {
 
     @Column(name = "registrationNumber", unique = true)
-    private int registrationNumber;
+    private Integer registrationNumber;
 
     private String firstName;
 
@@ -26,9 +26,9 @@ public class Student extends User {
     @Enumerated(EnumType.STRING)
     private Language language;
 
-    private int yearOfStudy;
+    private Integer yearOfStudy;
 
-    private int groupNumber;
+    private Integer groupNumber;
 
     private Funding funding;
 
