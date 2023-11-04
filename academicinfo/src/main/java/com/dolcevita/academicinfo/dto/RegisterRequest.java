@@ -1,4 +1,4 @@
-package com.dolcevita.academicinfo.auth;
+package com.dolcevita.academicinfo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

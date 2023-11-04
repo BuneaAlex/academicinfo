@@ -1,5 +1,6 @@
 package com.dolcevita.academicinfo.config;
 
+import com.dolcevita.academicinfo.utils.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +30,7 @@ public class SecurityConfig {
                 .configurationSource(corsConfigurationSource)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/auth/**", "/error").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
@@ -46,5 +47,4 @@ public class SecurityConfig {
 
         return http.build();
     }
-
 }

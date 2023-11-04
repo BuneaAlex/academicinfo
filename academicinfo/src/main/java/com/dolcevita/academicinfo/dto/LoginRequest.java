@@ -1,4 +1,4 @@
-package com.dolcevita.academicinfo.auth;
+package com.dolcevita.academicinfo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginRequest {
 
-    private String username;
+    private String email;
     private String password;
 }
