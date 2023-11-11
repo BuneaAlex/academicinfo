@@ -110,7 +110,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"Exam\",\r\n    \"attendeesRegistrationNumbers\": [12345],\r\n    \"startDateTime\": \"12.11.2023 21:17:00\",\r\n    \"endDateTime\": \"12.11.2023 23:30:00\"\r\n}\r\n",
+					"raw": "{\r\n    \"title\": \"Exam\",\r\n    \"attendeesRegistrationNumbers\": [\r\n        12345\r\n    ],\r\n    \"startDateTime\": \"12.11.2023 21:17:00\",\r\n    \"endDateTime\": \"12.11.2023 23:30:00\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -158,15 +158,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/exams/12345",
+					"raw": "http://localhost:8080/exams",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"exams",
-						"12345"
+						"exams"
 					]
 				}
 			},
