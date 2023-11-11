@@ -6,6 +6,8 @@ import com.dolcevita.academicinfo.exceptions.EmailAlreadyExistsException;
 import com.dolcevita.academicinfo.exceptions.InvalidEmailException;
 import com.dolcevita.academicinfo.exceptions.NotConfirmedException;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +42,11 @@ public class AuthenticationControllerExceptionHandler extends ResponseEntityExce
     @ExceptionHandler(MissingRequestHeaderException.class)
     public ResponseEntity<Object> handleCustomNotFoundException(MissingRequestHeaderException e) {
         return buildErrorResponse(new ApiError(HttpStatus.FORBIDDEN, "Token header not present", e));
+    }
+
+    @ExceptionHandler({SignatureException.class, MalformedJwtException.class})
+    public ResponseEntity<Object> handleCustomNotFoundException(SignatureException e) {
+        return buildErrorResponse(new ApiError(HttpStatus.FORBIDDEN, "Invalid token", e));
     }
 
     private static ResponseEntity<Object> buildErrorResponse(ApiError apiError) {

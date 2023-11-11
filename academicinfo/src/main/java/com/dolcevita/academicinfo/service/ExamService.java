@@ -25,6 +25,7 @@ public class ExamService {
     private final ExamRepository examRepository;
     private final StudentService studentService;
     private final EmailService emailService;
+    private final JwtService jwtService;
 
     public ExamDto createExam(ExamDto examDto) {
         Exam exam = Exam.builder().title(examDto.getTitle())
@@ -53,8 +54,15 @@ public class ExamService {
         return exam.toDto();
     }
 
-    public Set<ExamDto> getExams(String registrationNumber) {
-        return examRepository.findByAttendeesRegistrationNumbersContains(Integer.parseInt(registrationNumber))
+    public Set<ExamDto> getExams(String jwt) {
+        String extractedMail = jwtService.extractUsername(JwtService.jwtFromHeader(jwt));
+        StudentDto student = null;
+        try {
+            student = studentService.getStudent(extractedMail);
+        } catch (ResourceNotFoundException ignored) {
+            student = null;
+        }
+        return examRepository.findByAttendeesRegistrationNumbersContains(student.getRegistrationNumber())
                 .stream()
                 .map(Exam::toDto)
                 .collect(java.util.stream.Collectors.toSet());

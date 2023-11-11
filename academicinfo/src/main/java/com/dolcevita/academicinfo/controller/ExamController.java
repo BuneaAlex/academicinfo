@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/exams")
+@RequestMapping
 @RequiredArgsConstructor
 public class ExamController {
 
     private final ExamService examService;
 
-    @PostMapping
+    @PostMapping("/admin/exams")
     public ExamDto createExam(@RequestBody ExamDto examDto) {
         return examService.createExam(examDto);
     }
 
-    @GetMapping("/{registrationNumber}")
-    public Set<ExamDto> getExams(@PathVariable String registrationNumber) {
-        return examService.getExams(registrationNumber);
+    @GetMapping("/exams")
+    public Set<ExamDto> getExams(@RequestHeader("Authorization") String jwt) {
+        return examService.getExams(jwt);
     }
 }

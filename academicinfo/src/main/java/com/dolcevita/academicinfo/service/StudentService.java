@@ -46,6 +46,10 @@ public class StudentService {
         return userRepository.save(student).toDto();
     }
 
+    public StudentDto getStudent(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Student not found")).toDto();
+    }
+
     public StudentDto getStudent(Integer registrationNumber) {
         return userRepository.findByRegistrationNumber(registrationNumber).orElseThrow(() -> new ResourceNotFoundException("Student not found")).toDto();
     }
