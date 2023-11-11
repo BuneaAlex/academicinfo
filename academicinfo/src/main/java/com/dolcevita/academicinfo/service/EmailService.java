@@ -82,4 +82,28 @@ public class EmailService {
         } catch (MessagingException ignored) {
         }
     }
+
+    @Async
+    public void sendExamReminder(String to, ExamDto examDto) {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = null;
+        try {
+            helper = new MimeMessageHelper(message,
+                    MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                    StandardCharsets.UTF_8.name());
+
+
+            Context context = new Context();
+            context.setVariable("examDto", examDto);
+
+            String emailContent = templateEngine.process("reminder-template", context);
+
+            helper.setTo(to);
+            helper.setSubject("Exam notification");
+            helper.setText(emailContent, true);
+
+            mailSender.send(message);
+        } catch (MessagingException ignored) {
+        }
+    }
 }

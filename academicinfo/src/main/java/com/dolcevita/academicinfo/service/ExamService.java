@@ -8,8 +8,15 @@ import com.dolcevita.academicinfo.repository.ExamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +43,20 @@ public class ExamService {
         });
         exam.setAttendeesRegistrationNumbers(validAttendeesRegistrationNumbers);
         exam = examRepository.save(exam);
-        validAttendeesMails.forEach(mail -> emailService.sendExamNotification(mail, examDto));
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        long minutesUntilExam = LocalDateTime.now().until(examDto.getStartDateTime(), ChronoUnit.MINUTES);
+        validAttendeesMails.forEach(mail -> {
+            emailService.sendExamNotification(mail, examDto);
+            executorService.schedule(() -> emailService.sendExamReminder(mail, examDto),
+                    minutesUntilExam - 1440, TimeUnit.MINUTES);
+        });
         return exam.toDto();
+    }
+
+    public Set<ExamDto> getExams(String registrationNumber) {
+        return examRepository.findByAttendeesRegistrationNumbersContains(Integer.parseInt(registrationNumber))
+                .stream()
+                .map(Exam::toDto)
+                .collect(java.util.stream.Collectors.toSet());
     }
 }

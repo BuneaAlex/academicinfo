@@ -2,8 +2,7 @@ package com.dolcevita.academicinfo.service;
 
 import com.dolcevita.academicinfo.dto.StudentDto;
 import com.dolcevita.academicinfo.exceptions.ResourceNotFoundException;
-import com.dolcevita.academicinfo.model.Student;
-import com.dolcevita.academicinfo.repository.StudentRepository;
+import com.dolcevita.academicinfo.model.User;
 import com.dolcevita.academicinfo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,10 +12,10 @@ import org.springframework.util.ObjectUtils;
 @RequiredArgsConstructor
 public class StudentService {
 
-    private final StudentRepository studentRepository;
+    private final UserRepository userRepository;
 
     public StudentDto updateStudent(StudentDto studentDto) {
-        Student student = (Student) studentRepository.findByUuid(studentDto.getUuid()).orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+        User student = userRepository.findByUuid(studentDto.getUuid()).orElseThrow(() -> new ResourceNotFoundException("Student not found"));
         if (ObjectUtils.isEmpty(studentDto.getEmail())) {
             student.setEmail(studentDto.getEmail());
         }
@@ -44,10 +43,10 @@ public class StudentService {
         if (ObjectUtils.isEmpty(studentDto.getFunding())) {
             student.setFunding(studentDto.getFunding());
         }
-        return studentRepository.save(student).toDto();
+        return userRepository.save(student).toDto();
     }
 
     public StudentDto getStudent(Integer registrationNumber) {
-        return studentRepository.findByRegistrationNumber(registrationNumber).orElseThrow(() -> new ResourceNotFoundException("Student not found")).toDto();
+        return userRepository.findByRegistrationNumber(registrationNumber).orElseThrow(() -> new ResourceNotFoundException("Student not found")).toDto();
     }
 }
