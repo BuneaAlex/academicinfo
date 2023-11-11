@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 public class ApiError {
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    @JsonFormat(pattern = "dd.MM.yyyy HH:mm:ss", locale = "ro_RO")
     private final LocalDateTime timestamp;
     private final int status;
     private final String error;

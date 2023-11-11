@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Exam Notification</title>
+  <title>Exam Reminder</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -57,7 +57,7 @@
 <div class="container">
   <h1 th:text="${examDto.title}">Exam Title</h1>
   <p>
-    You have an upcoming exam scheduled. Please find the details below:
+    Exam reminder:
   </p>
   <ul>
     <li>Start Date and Time: <span th:text="${examDto.startDateTime}">[Start Date and Time]</span></li>

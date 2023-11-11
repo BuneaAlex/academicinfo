@@ -1,5 +1,6 @@
 package com.dolcevita.academicinfo.model;
 
+import com.dolcevita.academicinfo.dto.StudentDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,8 +27,6 @@ import java.util.List;
         @Index(name = "registrationNumber_index", columnList = "registrationNumber ASC", unique = true),
         @Index(name = "registerToken_index", columnList = "registerToken ASC", unique = true),
 })
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 public class User implements UserDetails {
 
     @Id
@@ -63,10 +62,24 @@ public class User implements UserDetails {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public User(String uuid, String email) {
-        this.uuid = uuid;
-        this.email = email;
-    }
+    @Column(name = "registrationNumber", unique = true)
+    private Integer registrationNumber;
+
+    private String firstName;
+
+    private String surname;
+
+    @Enumerated(EnumType.STRING)
+    private Specialization specialization;
+
+    @Enumerated(EnumType.STRING)
+    private Language language;
+
+    private Integer yearOfStudy;
+
+    private Integer groupNumber;
+
+    private Funding funding;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -106,6 +119,41 @@ public class User implements UserDetails {
     @PrePersist
     public void prePersist() {
         this.uuid = java.util.UUID.randomUUID().toString();
+    }
+
+    public StudentDto toDto() {
+        return StudentDto.builder()
+                .uuid(this.getUuid())
+                .email(this.getEmail())
+                .registrationNumber(this.getRegistrationNumber())
+                .firstName(this.getFirstName())
+                .surname(this.getSurname())
+                .specialization(this.getSpecialization())
+                .language(this.getLanguage())
+                .yearOfStudy(this.getYearOfStudy())
+                .groupNumber(this.getGroupNumber())
+                .funding(this.getFunding())
+                .createdAt(this.getCreatedAt())
+                .updatedAt(this.getUpdatedAt())
+                .build();
+    }
+
+    public enum Specialization {
+        COMPUTER_SCIENCE,
+        MATHEMATICS_AND_INFORMATICS,
+        MATHEMATICS
+    }
+
+    public enum Language {
+        ROMANIAN,
+        ENGLISH,
+        GERMAN
+        // Damiane daca te mananca sa adaugi ceva aici sa te fut in cur :)))
+    }
+
+    public enum Funding {
+        BUDGET,
+        TAX
     }
 
     public enum Role {
