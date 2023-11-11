@@ -79,6 +79,8 @@ public class User implements UserDetails {
 
     private Integer groupNumber;
 
+    private Integer semiGroup;
+
     private Funding funding;
 
     @Override
