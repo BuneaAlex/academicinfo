@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
         ignoreUnknown = true
 )
 public record ExternalTimeslot (
-        @JsonProperty("id") long id,
+        @JsonProperty("uuid") String id,
         @JsonProperty("class") ExternalClass classDto,
         @JsonProperty("weekDay") int weekDay,
         @JsonProperty("interval") TimeInterval interval,

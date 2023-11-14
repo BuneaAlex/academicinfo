@@ -18,7 +18,7 @@ public record ExternalClass (
         @JsonProperty("room") String room,
         @JsonProperty("lang") String language
 ) {
-    private record ExternalTeacher (
+    public record ExternalTeacher (
             @JsonProperty("name") String name,
             @JsonProperty("rank") String rank
     ) {

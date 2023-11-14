@@ -2,10 +2,7 @@ package com.dolcevita.academicinfo.model;
 
 import com.dolcevita.academicinfo.dto.StudentDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
@@ -146,11 +143,15 @@ public class User implements UserDetails {
         MATHEMATICS
     }
 
+    @Getter
+    @AllArgsConstructor
     public enum Language {
-        ROMANIAN,
-        ENGLISH,
-        GERMAN
+        ROMANIAN("ro"),
+        ENGLISH("en"),
+        GERMAN("de");
         // Damiane daca te mananca sa adaugi ceva aici sa te fut in cur :)))
+
+        private final String name;
     }
 
     public enum Funding {

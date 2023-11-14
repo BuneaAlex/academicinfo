@@ -12,7 +12,7 @@ public record TimeInterval (
         @JsonProperty("start") RelativeWeekTime start,
         @JsonProperty("end") RelativeWeekTime end
 ) {
-    private record RelativeWeekTime (
+    public record RelativeWeekTime (
             @JsonProperty("hour") int hour,
             @JsonProperty("minutes") int minutes
     ) {
