@@ -49,7 +49,7 @@ public class TimetableService {
                 timeslot.getFormation(),
                 new ExternalClass.ExternalTeacher(
                         String.format(FULL_NAME_PATTERN, teacher.getFirstName(), teacher.getSurname()),
-                        teacher.getRank().getName()
+                        teacher.getAcademicRank().getName()
                 ),
                 timeslot.getBuilding(),
                 null,

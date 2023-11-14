@@ -2,6 +2,10 @@ package com.dolcevita.academicinfo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
 
 @Data
 @Entity
@@ -22,7 +26,12 @@ public class Teacher {
     private String surname;
 
     @Enumerated(EnumType.STRING)
-    private TeacherRank rank;
+    private TeacherRank academicRank;
+
+    @CreationTimestamp
+    private Timestamp createdAt;
+    @UpdateTimestamp
+    private Timestamp updatedAt;
 
     @PrePersist
     public void prePersist() {
