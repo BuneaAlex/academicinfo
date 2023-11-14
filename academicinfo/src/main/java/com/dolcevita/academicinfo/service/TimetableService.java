@@ -3,16 +3,19 @@ package com.dolcevita.academicinfo.service;
 import com.dolcevita.academicinfo.dto.timetable.ExternalClass;
 import com.dolcevita.academicinfo.dto.timetable.ExternalTimeslot;
 import com.dolcevita.academicinfo.dto.timetable.TimetableResult;
+import com.dolcevita.academicinfo.exceptions.InvalidAcademicTimeException;
 import com.dolcevita.academicinfo.model.Timeslot;
+import com.dolcevita.academicinfo.model.User;
 import com.dolcevita.academicinfo.repository.SubjectRepository;
+import com.dolcevita.academicinfo.repository.TeacherRepository;
 import com.dolcevita.academicinfo.repository.TimetableRepository;
-import com.dolcevita.academicinfo.repository.UserRepository;
 import com.dolcevita.academicinfo.utils.api.Frequency;
 import com.dolcevita.academicinfo.utils.api.TimeInterval;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.time.temporal.ChronoField;
 import java.util.stream.Collectors;
 
@@ -22,10 +25,42 @@ public class TimetableService {
     private static final String FULL_NAME_PATTERN = "%s %s";
     private final TimetableRepository timetableRepository;
     private final SubjectRepository subjectRepository;
-    private final UserRepository userRepository;
+    private final TeacherRepository teacherRepository;
+    private final AcademicTimeHandlerService timeHandlerService;
     private final JwtService jwtService;
 
-    public ExternalTimeslot createTimeslot(final Timeslot timeslot) {
+    public ExternalTimeslot createTimeslot(final ExternalTimeslot newTimeslot) throws InvalidAcademicTimeException {
+        val subjectTargeted = subjectRepository.findByUuid(newTimeslot.classDto().classId());
+        val teacher = teacherRepository.findByUuid(newTimeslot.classDto().teacher().teacherId());
+        val year = timeHandlerService.resolveYearForTimestamp(newTimeslot.frequency().startTimestamp());
+        if (year.isEmpty()) {
+            throw new InvalidAcademicTimeException(
+                    String.format("Academic year could not be resolved for ts=%s",
+                            newTimeslot.frequency().startTimestamp()));
+        }
+        val semester = timeHandlerService.resolveSemesterForTimestamp(newTimeslot.frequency().startTimestamp());
+        if (semester.isEmpty()) {
+            throw new InvalidAcademicTimeException(
+                    String.format("Academic semester could not be resolved for ts=%s",
+                            newTimeslot.frequency().startTimestamp()));
+        }
+
+        val timeslot = Timeslot.builder()
+                .subject(subjectTargeted)
+                .year(year.get())
+                .semester(semester.get())
+                .type(Timeslot.ClassType.valueOf(newTimeslot.classDto().type()))
+                .formation(newTimeslot.classDto().formation())
+                .teacher(teacher)
+                .building(newTimeslot.classDto().building())
+                .room(newTimeslot.classDto().room())
+                .language(User.Language.valueOf(newTimeslot.classDto().language()))
+                .startTime(timeHandlerService.timeslotToTimestamp(newTimeslot.frequency().startTimestamp(), newTimeslot.weekDay(), newTimeslot.interval().start()))
+                .endTime(timeHandlerService.timeslotToTimestamp(newTimeslot.frequency().endTimestamp(), newTimeslot.weekDay(), newTimeslot.interval().end()))
+                .freqStart(Timestamp.valueOf(newTimeslot.frequency().startTimestamp()))
+                .freqEnd(Timestamp.valueOf(newTimeslot.frequency().endTimestamp()))
+                .weekFreq(newTimeslot.frequency().weekFrequency())
+                .build();
         val persisted = timetableRepository.save(timeslot);
         return handleTimeslot(persisted);
     }
@@ -44,10 +79,12 @@ public class TimetableService {
         val subject = timeslot.getSubject();
         val teacher = timeslot.getTeacher();
         return new ExternalClass(
+                subject.getUuid(),
                 subject.getName(),
                 timeslot.getType().getName(),
                 timeslot.getFormation(),
                 new ExternalClass.ExternalTeacher(
+                        teacher.getUuid(),
                         String.format(FULL_NAME_PATTERN, teacher.getFirstName(), teacher.getSurname()),
                         teacher.getAcademicRank().getName()
                 ),

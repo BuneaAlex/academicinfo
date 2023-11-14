@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
         ignoreUnknown = true
 )
 public record ExternalClass (
+        @JsonProperty("classId") String classId,
         @JsonProperty("name") String name,
         @JsonProperty("type") String type,
         @JsonProperty("formation") String formation,
@@ -19,6 +20,7 @@ public record ExternalClass (
         @JsonProperty("lang") String language
 ) {
     public record ExternalTeacher (
+            @JsonProperty("teacherId") String teacherId,
             @JsonProperty("name") String name,
             @JsonProperty("rank") String rank
     ) {

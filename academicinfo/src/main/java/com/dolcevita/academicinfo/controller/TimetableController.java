@@ -2,7 +2,7 @@ package com.dolcevita.academicinfo.controller;
 
 import com.dolcevita.academicinfo.dto.timetable.ExternalTimeslot;
 import com.dolcevita.academicinfo.dto.timetable.TimetableResult;
-import com.dolcevita.academicinfo.model.Timeslot;
+import com.dolcevita.academicinfo.exceptions.InvalidAcademicTimeException;
 import com.dolcevita.academicinfo.service.TimetableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ public class TimetableController {
     private final TimetableService timetableService;
 
     @PostMapping("/admin/timetable")
-    public ExternalTimeslot createTimeslot(@RequestBody Timeslot timeslot) {
+    public ExternalTimeslot createTimeslot(@RequestBody ExternalTimeslot timeslot) throws InvalidAcademicTimeException {
         return timetableService.createTimeslot(timeslot);
     }
 
