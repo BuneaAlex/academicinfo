@@ -23,7 +23,7 @@ public class Timeslot {
     private String uuid;
 
     @ManyToOne
-    @JoinColumn(name = "uuid")
+    @JoinColumn(name = "subjectUuid", referencedColumnName = "uuid")
     private Subject subject;
 
     private int year;
@@ -35,7 +35,7 @@ public class Timeslot {
     private String formation;
 
     @ManyToOne
-    @JoinColumn(name = "uuid")
+    @JoinColumn(name = "teacherUuid", referencedColumnName = "uuid")
     private Teacher teacher;
 
     private String building;
