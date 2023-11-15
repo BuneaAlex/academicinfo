@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,14 +16,15 @@ import java.util.stream.Collectors;
 public class TimeService {
     private final AcademicYearRepository academicYearRepository;
     private final AuthenticationService authenticationService;
+    private final AcademicTimeHandlerService timeHandlerService;
 
     public ExternalAcademicYear createAcademicYear(ExternalAcademicYear newYear) {
         val academicYear = AcademicYear.builder()
                 .year(newYear.year())
-                .firstSemesterStartTs(Timestamp.valueOf(newYear.firstSemesterStartTs()))
-                .firstSemesterEndTs(Timestamp.valueOf(newYear.firstSemesterEndTs()))
-                .secondSemesterStartTs(Timestamp.valueOf(newYear.secondSemesterStartTs()))
-                .secondSemesterEndTs(Timestamp.valueOf(newYear.secondSemesterEndTs()))
+                .firstSemesterStartTs(timeHandlerService.mapUnixToTimestamp(newYear.firstSemesterStartTs()))
+                .firstSemesterEndTs(timeHandlerService.mapUnixToTimestamp(newYear.firstSemesterEndTs()))
+                .secondSemesterStartTs(timeHandlerService.mapUnixToTimestamp(newYear.secondSemesterStartTs()))
+                .secondSemesterEndTs(timeHandlerService.mapUnixToTimestamp(newYear.secondSemesterEndTs()))
                 .build();
         val created = academicYearRepository.save(academicYear);
         return new ExternalAcademicYear(created.getYear(),

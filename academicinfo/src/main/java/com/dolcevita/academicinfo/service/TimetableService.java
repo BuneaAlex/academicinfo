@@ -4,6 +4,7 @@ import com.dolcevita.academicinfo.dto.timetable.ExternalClass;
 import com.dolcevita.academicinfo.dto.timetable.ExternalTimeslot;
 import com.dolcevita.academicinfo.dto.timetable.TimetableResult;
 import com.dolcevita.academicinfo.exceptions.InvalidAcademicTimeException;
+import com.dolcevita.academicinfo.exceptions.ResourceNotFoundException;
 import com.dolcevita.academicinfo.model.Timeslot;
 import com.dolcevita.academicinfo.model.User;
 import com.dolcevita.academicinfo.repository.SubjectRepository;
@@ -11,6 +12,7 @@ import com.dolcevita.academicinfo.repository.TeacherRepository;
 import com.dolcevita.academicinfo.repository.TimetableRepository;
 import com.dolcevita.academicinfo.utils.api.Frequency;
 import com.dolcevita.academicinfo.utils.api.TimeInterval;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -57,8 +59,8 @@ public class TimetableService {
                 .language(User.Language.valueOf(newTimeslot.classDto().language()))
                 .startTime(timeHandlerService.timeslotToTimestamp(newTimeslot.frequency().startTimestamp(), newTimeslot.weekDay(), newTimeslot.interval().start()))
                 .endTime(timeHandlerService.timeslotToTimestamp(newTimeslot.frequency().endTimestamp(), newTimeslot.weekDay(), newTimeslot.interval().end()))
-                .freqStart(Timestamp.valueOf(newTimeslot.frequency().startTimestamp()))
-                .freqEnd(Timestamp.valueOf(newTimeslot.frequency().endTimestamp()))
+                .freqStart(timeHandlerService.mapUnixToTimestamp(newTimeslot.frequency().startTimestamp()))
+                .freqEnd(timeHandlerService.mapUnixToTimestamp(newTimeslot.frequency().startTimestamp()))
                 .weekFreq(newTimeslot.frequency().weekFrequency())
                 .build();
         val persisted = timetableRepository.save(timeslot);
@@ -75,9 +77,18 @@ public class TimetableService {
         return new TimetableResult(username, resultingTimeslots);
     }
 
-    private ExternalClass handleClass(final Timeslot timeslot) {
+    private ExternalClass handleClass(final @NonNull Timeslot timeslot) {
         val subject = timeslot.getSubject();
         val teacher = timeslot.getTeacher();
+        if (subject == null) {
+            throw new ResourceNotFoundException(
+                    String.format("Cannot resolve subject for timeslot uuid=%s", timeslot.getUuid()));
+        }
+        if (teacher == null) {
+            throw new ResourceNotFoundException(
+                    String.format("Cannot resolve teacher for timeslot uuid=%s", timeslot.getUuid()));
+        }
+
         return new ExternalClass(
                 subject.getUuid(),
                 subject.getName(),
