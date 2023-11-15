@@ -30,15 +30,11 @@ public class SubjectService {
     }
 
     public Set<SubjectDto> getSubjects(String jwt) {
-        try {
-            authenticationService.confirm(jwt);
-            return subjectRepository.findAll()
-                    .stream()
-                    .map(this::handleSubject)
-                    .collect(Collectors.toSet());
-        } catch (ResourceNotFoundException ignored) {
-        }
-        return null;
+        //TODO authenticationService.confirm(jwt);
+        return subjectRepository.findAll()
+                .stream()
+                .map(this::handleSubject)
+                .collect(Collectors.toSet());
     }
 
     private SubjectDto handleSubject(final Subject subject) {

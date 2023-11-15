@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "736e95e0-edba-4833-8d1b-4935e5ce1362",
+		"_postman_id": "a285ad29-2519-46cd-bc4c-70a9929a63a9",
 		"name": "ProiectColectiv",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "30320010"
+		"_exporter_id": "29594741"
 	},
 	"item": [
 		{
@@ -132,6 +132,158 @@
 			"response": []
 		},
 		{
+			"name": "Post Subject",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{JWT_TOKEN}}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Arhitectura sistemelor de calcul\",\r\n    \"credits\": 6,\r\n    \"semester\": 1,\r\n    \"subjectType\": \"MANDATORY\",\r\n    \"faculty\": \"FMI\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/admin/subjects",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"subjects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Teacher",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{JWT_TOKEN}}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Alexandru\",\r\n    \"surname\": \"Vancea\",\r\n    \"academicRank\": \"LECTOR\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/admin/teachers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"teachers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Timeslot",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{JWT_TOKEN}}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"class\": {\r\n    \"classId\": \"0cbfed10-cd6d-4d91-aaf5-7b07bfd53bde\",\r\n    \"type\": \"lab\",\r\n    \"formation\": \"212/1\",\r\n    \"teacher\": {\r\n      \"teacherId\": \"\"\r\n    },\r\n    \"building\": \"FSEGA\",\r\n    \"address\": \"Str. Teodor Mihali nr. 40\",\r\n    \"room\": \"L343\",\r\n    \"lang\": \"ro\"\r\n  },\r\n  \"weekDay\": 2,\r\n  \"interval\": {\r\n    \"start\": {\r\n      \"hour\": 7,\r\n      \"minutes\": 30\r\n    },\r\n    \"end\": {\r\n      \"hour\": 9,\r\n      \"minutes\": 20\r\n    }\r\n  },\r\n  \"frequency\": {\r\n    \"everyWeeks\": 1,\r\n    \"freqStart\": \"1699706354\",\r\n    \"freqEnd\": \"1706092754\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/admin/timetable",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"timetable"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Academic Year",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{JWT_TOKEN}}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"year\": 2023,\r\n  \"firstSemesterStartTs\": \"1696194000000\",\r\n  \"firstSemesterEndTs\": \"1705701600000\",\r\n  \"secondSemesterStartTs\": \"1705874400000\",\r\n  \"secondSemesterEndTs\": \"1718830800000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/admin/years",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"years"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get Student's Exams",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
@@ -166,6 +318,87 @@
 					"port": "8080",
 					"path": [
 						"exams"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Subjects",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{JWT_TOKEN}}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Exam\",\r\n  \"attendeesRegistrationNumbers\": [12345],\r\n  \"startDateTime\": \"2023-11-05T16:00:00\",\r\n  \"endDateTime\": \"2023-11-05T18:00:00\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/subjects",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"subjects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Student's Timetable",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{JWT_TOKEN}}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/2023-1/timetable",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"2023-1",
+						"timetable"
 					]
 				}
 			},
