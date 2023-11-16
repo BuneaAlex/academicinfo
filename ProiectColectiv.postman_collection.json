@@ -132,6 +132,54 @@
 			"response": []
 		},
 		{
+			"name": "Post Request",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{JWT_TOKEN}}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "studentRegistrationNumber",
+							"value": "12345",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "CONTRACT",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/requests",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Post Subject",
 			"request": {
 				"auth": {
