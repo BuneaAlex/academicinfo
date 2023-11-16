@@ -1,6 +1,7 @@
 package com.dolcevita.academicinfo.controller;
 
 import com.dolcevita.academicinfo.dto.SubjectDto;
+import com.dolcevita.academicinfo.exceptions.NotConfirmedException;
 import com.dolcevita.academicinfo.service.SubjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class SubjectController {
     }
 
     @GetMapping("/subjects")
-    public Set<SubjectDto> getSubjects(@RequestHeader("Authorization") String jwt) {
+    public Set<SubjectDto> getSubjects(@RequestHeader("Authorization") String jwt) throws NotConfirmedException {
         return subjectService.getSubjects(jwt);
     }
 }

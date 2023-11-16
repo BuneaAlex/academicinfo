@@ -1,6 +1,7 @@
 package com.dolcevita.academicinfo.controller;
 
 import com.dolcevita.academicinfo.dto.ExamDto;
+import com.dolcevita.academicinfo.exceptions.NotConfirmedException;
 import com.dolcevita.academicinfo.model.Exam;
 import com.dolcevita.academicinfo.service.ExamService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class ExamController {
     }
 
     @GetMapping("/exams")
-    public Set<ExamDto> getExams(@RequestHeader("Authorization") String jwt) {
+    public Set<ExamDto> getExams(@RequestHeader("Authorization") String jwt) throws NotConfirmedException {
         return examService.getExams(jwt);
     }
 }

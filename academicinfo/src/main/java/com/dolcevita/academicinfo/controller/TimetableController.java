@@ -3,6 +3,7 @@ package com.dolcevita.academicinfo.controller;
 import com.dolcevita.academicinfo.dto.timetable.ExternalTimeslot;
 import com.dolcevita.academicinfo.dto.timetable.TimetableResult;
 import com.dolcevita.academicinfo.exceptions.InvalidAcademicTimeException;
+import com.dolcevita.academicinfo.exceptions.NotConfirmedException;
 import com.dolcevita.academicinfo.service.TimetableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,9 @@ public class TimetableController {
     }
 
     @GetMapping("/{year}-{semester}/timetable")
-    public TimetableResult getTimetable(@RequestHeader("Authorization") String jwt, @PathVariable int year, @PathVariable int semester) {
+    public TimetableResult getTimetable(@RequestHeader("Authorization") String jwt,
+                                        @PathVariable int year,
+                                        @PathVariable int semester) throws NotConfirmedException {
         return timetableService.getTimetable(jwt, year, semester);
     }
 }

@@ -1,9 +1,6 @@
 package com.dolcevita.academicinfo.service;
 
-import com.dolcevita.academicinfo.dto.AuthenticationResponse;
-import com.dolcevita.academicinfo.dto.LoginRequest;
-import com.dolcevita.academicinfo.dto.RegisterRequest;
-import com.dolcevita.academicinfo.dto.RegisterResponse;
+import com.dolcevita.academicinfo.dto.*;
 import com.dolcevita.academicinfo.exceptions.EmailAlreadyExistsException;
 import com.dolcevita.academicinfo.exceptions.InvalidEmailException;
 import com.dolcevita.academicinfo.exceptions.NotConfirmedException;
@@ -11,22 +8,24 @@ import com.dolcevita.academicinfo.exceptions.ResourceNotFoundException;
 import com.dolcevita.academicinfo.model.User;
 import com.dolcevita.academicinfo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final StudentService studentService;
     //private final EmailService emailService;
 
     public RegisterResponse register(RegisterRequest request) {
@@ -66,5 +65,19 @@ public class AuthenticationService {
         user.setRegisterToken(null);
         user.setMailConfirmed(true);
         userRepository.save(user);
+    }
+
+    public Optional<StudentDto> confirmStudentByToken(final String jwt) {
+        String extractedMail = jwtService.extractUsername(JwtService.jwtFromHeader(jwt));
+        try {
+            return Optional.of(studentService.getStudent(extractedMail));
+        } catch (ResourceNotFoundException ignored) {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<User> confirmUserByToken(final String jwt) {
+        val extractedMail = jwtService.extractUsername(JwtService.jwtFromHeader(jwt));
+        return userRepository.findByEmail(extractedMail);
     }
 }

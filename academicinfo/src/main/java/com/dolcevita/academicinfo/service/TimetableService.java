@@ -4,6 +4,7 @@ import com.dolcevita.academicinfo.dto.timetable.ExternalClass;
 import com.dolcevita.academicinfo.dto.timetable.ExternalTimeslot;
 import com.dolcevita.academicinfo.dto.timetable.TimetableResult;
 import com.dolcevita.academicinfo.exceptions.InvalidAcademicTimeException;
+import com.dolcevita.academicinfo.exceptions.NotConfirmedException;
 import com.dolcevita.academicinfo.exceptions.ResourceNotFoundException;
 import com.dolcevita.academicinfo.model.Timeslot;
 import com.dolcevita.academicinfo.model.User;
@@ -17,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.time.temporal.ChronoField;
 import java.util.stream.Collectors;
 
@@ -29,7 +29,7 @@ public class TimetableService {
     private final SubjectRepository subjectRepository;
     private final TeacherRepository teacherRepository;
     private final AcademicTimeHandlerService timeHandlerService;
-    private final JwtService jwtService;
+    private final AuthenticationService authenticationService;
 
     public ExternalTimeslot createTimeslot(final ExternalTimeslot newTimeslot) throws InvalidAcademicTimeException {
         val subjectTargeted = subjectRepository.findByUuid(newTimeslot.classDto().classId());
@@ -67,9 +67,13 @@ public class TimetableService {
         return handleTimeslot(persisted);
     }
 
-    public TimetableResult getTimetable(final String token, final int year, final int semester) {
-        val username = jwtService.extractUsername(JwtService.jwtFromHeader(token));
+    public TimetableResult getTimetable(final String token, final int year, final int semester) throws NotConfirmedException {
+        val identity = authenticationService.confirmUserByToken(token);
+        if (identity.isEmpty()) {
+            throw new NotConfirmedException("Identity could not be confirmed!");
+        }
 
+        val username = identity.get().getUsername();
         val matchingTimeslots = timetableRepository.findAllByYearAndSemester(year, semester);
         val resultingTimeslots = matchingTimeslots.stream()
                 .map(this::handleTimeslot)

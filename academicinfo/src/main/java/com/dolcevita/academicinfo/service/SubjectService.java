@@ -1,7 +1,7 @@
 package com.dolcevita.academicinfo.service;
 
 import com.dolcevita.academicinfo.dto.SubjectDto;
-import com.dolcevita.academicinfo.exceptions.ResourceNotFoundException;
+import com.dolcevita.academicinfo.exceptions.NotConfirmedException;
 import com.dolcevita.academicinfo.model.Subject;
 import com.dolcevita.academicinfo.repository.SubjectRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +29,11 @@ public class SubjectService {
         return handleSubject(created);
     }
 
-    public Set<SubjectDto> getSubjects(String jwt) {
-        //TODO authenticationService.confirm(jwt);
+    public Set<SubjectDto> getSubjects(String jwt) throws NotConfirmedException {
+        val identity = authenticationService.confirmUserByToken(jwt);
+        if (identity.isEmpty()) {
+            throw new NotConfirmedException("Identity could not be confirmed!");
+        }
         return subjectRepository.findAll()
                 .stream()
                 .map(this::handleSubject)
