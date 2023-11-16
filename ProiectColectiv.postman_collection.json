@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "14e3d2f9-cb84-4453-a55f-c7d386636dc1",
+		"_postman_id": "a285ad29-2519-46cd-bc4c-70a9929a63a9",
 		"name": "ProiectColectiv",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "30320010"
+		"_exporter_id": "29594741"
 	},
 	"item": [
 		{
@@ -126,54 +126,6 @@
 					"port": "8080",
 					"path": [
 						"exams"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Post Request",
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer {{JWT_TOKEN}}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "file",
-							"type": "file",
-							"src": []
-						},
-						{
-							"key": "studentRegistrationNumber",
-							"value": "12345",
-							"type": "text"
-						},
-						{
-							"key": "type",
-							"value": "CONTRACT",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:8080/requests",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"requests"
 					]
 				}
 			},
@@ -372,7 +324,7 @@
 			"response": []
 		},
 		{
-			"name": "Get Student's Exams Copy",
+			"name": "Get Subjects",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -398,21 +350,21 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/requests",
+					"raw": "http://localhost:8080/subjects",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"requests"
+						"subjects"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Get Subjects",
+			"name": "Get Academic Years",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
