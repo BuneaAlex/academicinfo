@@ -1,6 +1,7 @@
 package com.dolcevita.academicinfo.service;
 
 import com.dolcevita.academicinfo.dto.timetable.ExternalAcademicYear;
+import com.dolcevita.academicinfo.exceptions.NotConfirmedException;
 import com.dolcevita.academicinfo.exceptions.ResourceNotFoundException;
 import com.dolcevita.academicinfo.model.AcademicYear;
 import com.dolcevita.academicinfo.repository.AcademicYearRepository;
@@ -34,16 +35,16 @@ public class TimeService {
                 created.getSecondSemesterEndTs().toString());
     }
 
-    public Set<ExternalAcademicYear> getAcademicYears(final String token) {
-        try {
-            authenticationService.confirm(token);
-            return academicYearRepository.findAll()
-                    .stream()
-                    .map(this::handleYear)
-                    .collect(Collectors.toSet());
-        } catch (ResourceNotFoundException ignored) {
+    public Set<ExternalAcademicYear> getAcademicYears(final String token) throws NotConfirmedException {
+        val identity = authenticationService.confirmUserByToken(token);
+        if (identity.isEmpty()) {
+            throw new NotConfirmedException("Identity could not be confirmed!");
         }
-        return null;
+
+        return academicYearRepository.findAll()
+                .stream()
+                .map(this::handleYear)
+                .collect(Collectors.toSet());
     }
 
     private ExternalAcademicYear handleYear(final AcademicYear academicYear) {

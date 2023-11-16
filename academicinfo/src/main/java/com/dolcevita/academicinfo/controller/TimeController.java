@@ -1,6 +1,7 @@
 package com.dolcevita.academicinfo.controller;
 
 import com.dolcevita.academicinfo.dto.timetable.ExternalAcademicYear;
+import com.dolcevita.academicinfo.exceptions.NotConfirmedException;
 import com.dolcevita.academicinfo.service.TimeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class TimeController {
     }
 
     @GetMapping("/years")
-    public Set<ExternalAcademicYear> getAcademicYears(@RequestHeader("Authorization") String jwt) {
+    public Set<ExternalAcademicYear> getAcademicYears(@RequestHeader("Authorization") String jwt) throws NotConfirmedException {
         return timeService.getAcademicYears(jwt);
     }
 }
