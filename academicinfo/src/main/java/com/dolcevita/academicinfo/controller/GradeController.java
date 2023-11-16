@@ -20,7 +20,7 @@ public class GradeController {
         return gradeService.createGrade(gradeDto);
     }
 
-    @GetMapping("/grades")
+    @GetMapping("/grades/{studentUuid}")
     public Set<GradeDto> getGradesBySubjectUuid(@RequestParam String subjectUuid) {
         return gradeService.getGradesBySubject(subjectUuid);
     }
