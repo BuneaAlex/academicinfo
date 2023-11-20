@@ -37,3 +37,46 @@ token:
     key: f23dcfbb7c50130f12adb2c68a5fef5b4f439c75068e3ff9eb7f1787d8e8797c
   expiration:
     minutes: 60
+
+academic:
+  faculties:
+    MATE_INFO:
+      name: Facultatea de Matematică și Informatică
+      group-split-factor: 2 # default, can be omitted
+      majors:
+        COMPUTER_SCIENCE:
+          name: Informatică
+          years: 3
+          branches:
+            - lang: ro
+              group-prefix: 2
+              groups: 7
+              identifier: I
+            - lang: en
+              group-prefix: 9
+              groups: 7
+              identifier: IE
+            - lang: de
+              group-prefix: 7
+              groups: 3
+              identifier: IG
+            - lang: hu
+              group-prefix: 5
+              groups: 4
+              identifier: IM
+        MATHEMATICS_AND_INFORMATICS:
+          name: Matematică și Informatică
+          years: 3
+          branches:
+            - lang: ro
+              group-prefix: 3
+              groups: 4
+              identifier: MIR
+            - lang: en
+              group-prefix: 8
+              groups: 4
+              identifier: MIE
+            - lang: hu
+              group-prefix: 6
+              groups: 2
+              identifier: MIM
