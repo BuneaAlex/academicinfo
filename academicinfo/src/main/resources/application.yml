@@ -22,7 +22,7 @@ spring:
 
 logging:
   level:
-    com.dolcevita.academicinfo: debug
+    com.dolcevita.academicinfo: info
   file:
     name: logs/academic-info.log
 
