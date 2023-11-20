@@ -15,12 +15,14 @@ import com.dolcevita.academicinfo.utils.api.Frequency;
 import com.dolcevita.academicinfo.utils.api.TimeInterval;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
 import java.time.temporal.ChronoField;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TimetableService {
@@ -70,14 +72,17 @@ public class TimetableService {
     public TimetableResult getTimetable(final String token, final int year, final int semester) throws NotConfirmedException {
         val identity = authenticationService.confirmUserByToken(token);
         if (identity.isEmpty()) {
+            log.error("Identity could not be confirmed, cannot resolve timetable");
             throw new NotConfirmedException("Identity could not be confirmed!");
         }
 
         val username = identity.get().getUsername();
+        log.info("Identity confirmed, username={}", username);
         val matchingTimeslots = timetableRepository.findAllByYearAndSemester(year, semester);
         val resultingTimeslots = matchingTimeslots.stream()
                 .map(this::handleTimeslot)
                 .collect(Collectors.toSet());
+        log.info("Found {} timeslots for year={}, semester={}", resultingTimeslots.size(), year, semester);
         return new TimetableResult(username, resultingTimeslots);
     }
 
