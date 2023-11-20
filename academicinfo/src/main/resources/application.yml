@@ -20,9 +20,11 @@ spring:
           starttls:
             enable: true
 
-#logging:
-#  level:
-#    root: WARN
+logging:
+  level:
+    com.dolcevita.academicinfo: debug
+  file:
+    name: logs/academic-info.log
 
 allowedOrigins: "http://localhost:4200"
 
