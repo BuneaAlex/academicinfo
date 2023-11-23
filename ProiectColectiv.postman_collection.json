@@ -332,6 +332,41 @@
 			"response": []
 		},
 		{
+			"name": "Post Grade",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{JWT_TOKEN}}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"studentEmail\": \"demiancatalinionut@gmail.com\",\r\n    \"subjectUuid\": \"b6bdd402-f63f-4e5c-bd00-cf4a7393c4a5\", \r\n    \"grade\": 85, \r\n    \"datePromotion\": \"2023-11-16T00:00:00\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/admin/grades",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"grades"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get Student's Exams",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
@@ -487,6 +522,32 @@
 					"path": [
 						"2023-1",
 						"timetable"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Grades By Subject",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{JWT_TOKEN}}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/b6bdd402-f63f-4e5c-bd00-cf4a7393c4a5/grades",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"b6bdd402-f63f-4e5c-bd00-cf4a7393c4a5",
+						"grades"
 					]
 				}
 			},
