@@ -2,6 +2,7 @@ package com.dolcevita.academicinfo.controller;
 
 import com.dolcevita.academicinfo.dto.GradeDto;
 import com.dolcevita.academicinfo.service.GradeService;
+import com.google.errorprone.annotations.Var;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +21,8 @@ public class GradeController {
         return gradeService.createGrade(gradeDto);
     }
 
-    @GetMapping("/grades/{studentUuid}")
-    public Set<GradeDto> getGradesBySubjectUuid(@RequestParam String subjectUuid) {
+    @GetMapping("/{subjectUuid}/grades")
+    public Set<GradeDto> getGradesBySubjectUuid(@PathVariable String subjectUuid) {
         return gradeService.getGradesBySubject(subjectUuid);
     }
 

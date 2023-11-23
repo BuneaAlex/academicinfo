@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 public record GradeDto (
         String uuid,
         int grade,
-        User student,
-        Subject subject,
+        String studentEmail,
+        String subjectUuid,
         @JsonFormat(pattern = "dd.MM.yyyy HH:mm:ss", locale = "ro_RO") LocalDateTime createdAt,
         @JsonFormat(pattern = "dd.MM.yyyy HH:mm:ss", locale = "ro_RO") LocalDateTime updatedAt
 ) {
