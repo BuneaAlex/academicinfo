@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "a285ad29-2519-46cd-bc4c-70a9929a63a9",
+		"_postman_id": "fdff3799-b911-483d-8659-2ce6d26a63c9",
 		"name": "ProiectColectiv",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "29594741"
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "31207470"
 	},
 	"item": [
 		{
@@ -35,18 +35,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8080/auth/register",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"auth",
-						"register"
-					]
-				}
+				"url": "http://localhost:8080/auth/register"
 			},
 			"response": []
 		},
@@ -79,18 +68,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8080/auth/login",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"auth",
-						"login"
-					]
-				}
+				"url": "http://localhost:8080/auth/login"
 			},
 			"response": []
 		},
@@ -117,17 +95,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8080/exams",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"exams"
-					]
-				}
+				"url": "http://localhost:8080/exams"
 			},
 			"response": []
 		},
@@ -165,17 +133,7 @@
 						}
 					]
 				},
-				"url": {
-					"raw": "http://localhost:8080/requests",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"requests"
-					]
-				}
+				"url": "http://localhost:8080/requests"
 			},
 			"response": []
 		},
@@ -202,18 +160,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8080/admin/subjects",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"admin",
-						"subjects"
-					]
-				}
+				"url": "http://localhost:8080/admin/subjects"
 			},
 			"response": []
 		},
@@ -240,18 +187,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8080/admin/teachers",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"admin",
-						"teachers"
-					]
-				}
+				"url": "http://localhost:8080/admin/teachers"
 			},
 			"response": []
 		},
@@ -278,18 +214,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8080/admin/timetable",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"admin",
-						"timetable"
-					]
-				}
+				"url": "http://localhost:8080/admin/timetable"
 			},
 			"response": []
 		},
@@ -316,18 +241,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8080/admin/years",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"admin",
-						"years"
-					]
-				}
+				"url": "http://localhost:8080/admin/years"
 			},
 			"response": []
 		},
@@ -351,18 +265,26 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8080/admin/grades",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"admin",
-						"grades"
-					]
-				}
+				"url": "http://localhost:8080/admin/grades"
+			},
+			"response": []
+		},
+		{
+			"name": "Post Contract",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{JWT_TOKEN}}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"uuid\": \"11a5d887-5ed2-4e59-b6a4-d886681927d0\",\r\n        \"name\": \"Arhitectura sistemelor de calcul\",\r\n        \"credits\": 6,\r\n        \"semester\": 1,\r\n        \"faculty\": \"FMI\",\r\n        \"createdAt\": \"14.12.2023 20:32:27\",\r\n        \"updatedAt\": \"14.12.2023 20:32:27\"\r\n    }\r\n]"
+				},
+				"url": "http://localhost:8080/admin/contract"
 			},
 			"response": []
 		},
@@ -392,17 +314,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8080/exams",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"exams"
-					]
-				}
+				"url": "http://localhost:8080/exams"
 			},
 			"response": []
 		},
@@ -432,17 +344,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8080/subjects",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"subjects"
-					]
-				}
+				"url": "http://localhost:8080/subjects"
 			},
 			"response": []
 		},
@@ -472,17 +374,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8080/subjects",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"subjects"
-					]
-				}
+				"url": "http://localhost:8080/subjects"
 			},
 			"response": []
 		},
@@ -512,18 +404,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8080/2023-1/timetable",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"2023-1",
-						"timetable"
-					]
-				}
+				"url": "http://localhost:8080/2023-1/timetable"
 			},
 			"response": []
 		},
@@ -538,18 +419,22 @@
 						"type": "text"
 					}
 				],
-				"url": {
-					"raw": "http://localhost:8080/b6bdd402-f63f-4e5c-bd00-cf4a7393c4a5/grades",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"b6bdd402-f63f-4e5c-bd00-cf4a7393c4a5",
-						"grades"
-					]
-				}
+				"url": "http://localhost:8080/b6bdd402-f63f-4e5c-bd00-cf4a7393c4a5/grades"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Subjects By Student",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{JWT_TOKEN}}}",
+						"type": "text"
+					}
+				],
+				"url": "http://localhost:8080/contracts/subjects"
 			},
 			"response": []
 		}

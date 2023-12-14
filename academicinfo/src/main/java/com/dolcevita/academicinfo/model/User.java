@@ -78,7 +78,15 @@ public class User implements UserDetails {
 
     private Integer semiGroup;
 
+    @Enumerated(EnumType.STRING)
     private Funding funding;
+
+    @ManyToMany
+    @JoinTable(
+            name = "student_subject",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id"))
+    private List<Subject> subjects;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -149,8 +157,7 @@ public class User implements UserDetails {
         ROMANIAN("ro"),
         ENGLISH("en"),
         GERMAN("de");
-        // Damiane daca te mananca sa adaugi ceva aici sa te fut in cur :)))
-
+        //baszd meg ez a magyarul nem mukodik
         private final String name;
     }
 

@@ -1,7 +1,5 @@
 package com.dolcevita.academicinfo.dto;
 
-import com.dolcevita.academicinfo.model.Subject;
-import com.dolcevita.academicinfo.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

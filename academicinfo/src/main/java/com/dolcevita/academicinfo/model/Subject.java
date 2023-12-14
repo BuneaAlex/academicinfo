@@ -1,5 +1,6 @@
 package com.dolcevita.academicinfo.model;
 
+import com.dolcevita.academicinfo.dto.SubjectDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -41,6 +43,13 @@ public class Subject {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @ManyToMany
+    @JoinTable(
+            name = "student_subject",
+            joinColumns = @JoinColumn(name = "subject_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
+    private List<User> students;
+
     @PrePersist
     public void prePersist() {
         this.uuid = java.util.UUID.randomUUID().toString();
@@ -62,5 +71,17 @@ public class Subject {
         SPORTS,
         CHEMISTRY,
         GEOGRAPHY
+    }
+    public SubjectDto toDto() {
+        return new SubjectDto(
+                this.getUuid(),
+                this.getName(),
+                this.getCredits(),
+                this.getSemester(),
+                this.getSubjectType(),
+                this.getFaculty(),
+                this.getCreatedAt(),
+                this.getUpdatedAt()
+        );
     }
 }
