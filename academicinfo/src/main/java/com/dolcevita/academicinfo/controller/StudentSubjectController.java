@@ -25,4 +25,9 @@ public class StudentSubjectController {
     public Set<SubjectDto> getSubjectsForAStudent(@RequestHeader("Authorization") String jwt) throws NotConfirmedException {
         return studentsSubjectService.getSubjectsForAStudent(jwt);
     }
+
+    @DeleteMapping("/contract/delete/{uuid}")
+    public SubjectDto deleteOptionalOrFacultativeSubjectFromContract(@PathVariable String uuid, @RequestHeader("Authorization") String jwt) throws NotConfirmedException {
+        return studentsSubjectService.deleteOptionalOrFacultativeSubjectFromContract(uuid, jwt);
+    }
 }

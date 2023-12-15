@@ -48,4 +48,21 @@ public class StudentsSubjectService {
                 .map(Subject::toDto)
                 .collect(Collectors.toSet());
     }
+
+    public SubjectDto deleteOptionalOrFacultativeSubjectFromContract(String uuid, String jwt) throws NotConfirmedException {
+        val studentDto = authenticationService.confirmStudentByToken(jwt);
+        if (studentDto.isEmpty()) {
+            throw new NotConfirmedException("Identity could not be confirmed!");
+        }
+        val student = userRepository.findByRegistrationNumber(studentDto.get().getRegistrationNumber()).get();
+        val subject = subjectRepository.findByUuid(uuid);
+        if (Subject.SubjectType.OPTIONAL.equals(subject.getSubjectType()) || Subject.SubjectType.FACULTATIVE.equals(subject.getSubjectType())) {
+            subject.getStudents().remove(student);
+            subjectRepository.save(subject);
+            return subject.toDto();
+        }
+        else {
+            throw new NotConfirmedException("Subject is mandatory!");
+        }
+    }
 }

@@ -33,6 +33,7 @@ public class Subject {
 
     private int semester;
 
+    @Enumerated(EnumType.STRING)
     private SubjectType subjectType;
 
     private Faculty faculty;

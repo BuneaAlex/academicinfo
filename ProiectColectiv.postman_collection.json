@@ -437,6 +437,21 @@
 				"url": "http://localhost:8080/contracts/subjects"
 			},
 			"response": []
+		},
+		{
+			"name": "Delete Optional Subject From Contract",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{JWT_TOKEN}}}",
+						"type": "text"
+					}
+				],
+				"url": "http://localhost:8080/contract/delete/36ef975e-cbee-47c7-b9c2-5d0db42d66d4"
+			},
+			"response": []
 		}
 	]
 }
