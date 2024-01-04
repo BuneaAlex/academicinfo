@@ -153,7 +153,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Arhitectura sistemelor de calcul\",\r\n    \"credits\": 6,\r\n    \"semester\": 1,\r\n    \"subjectType\": \"MANDATORY\",\r\n    \"faculty\": \"FMI\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Interactiune Om-Calculator\",\r\n    \"credits\": 6,\r\n    \"semester\": 1,\r\n    \"subjectType\": \"OPTIONAL\",\r\n    \"faculty\": \"FMI\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -282,7 +282,12 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[\r\n    {\r\n        \"uuid\": \"11a5d887-5ed2-4e59-b6a4-d886681927d0\",\r\n        \"name\": \"Arhitectura sistemelor de calcul\",\r\n        \"credits\": 6,\r\n        \"semester\": 1,\r\n        \"faculty\": \"FMI\",\r\n        \"createdAt\": \"14.12.2023 20:32:27\",\r\n        \"updatedAt\": \"14.12.2023 20:32:27\"\r\n    }\r\n]"
+					"raw": "[\r\n    {\r\n        \"uuid\": \"36ef975e-cbee-47c7-b9c2-5d0db42d66d4\",\r\n        \"name\": \"Interactiune Om-Calculator\",\r\n        \"credits\": 6,\r\n        \"semester\": 1,\r\n        \"faculty\": \"FMI\",\r\n        \"createdAt\": \"15.12.2023 14:49:59\",\r\n        \"updatedAt\": \"15.12.2023 14:49:59\"\r\n    },\r\n    {\r\n        \"uuid\": \"11a5d887-5ed2-4e59-b6a4-d886681927d0\",\r\n        \"name\": \"Arhitectura sistemelor de calcul\",\r\n        \"credits\": 6,\r\n        \"semester\": 1,\r\n        \"faculty\": \"FMI\",\r\n        \"createdAt\": \"14.12.2023 20:32:27\",\r\n        \"updatedAt\": \"14.12.2023 20:32:27\"\r\n    },\r\n    {\r\n        \"uuid\": \"588dab7b-2b21-469b-ab6b-a275c05aeffb\",\r\n        \"name\": \"Fundamentele Programarii\",\r\n        \"credits\": 6,\r\n        \"semester\": 1,\r\n        \"faculty\": \"FMI\",\r\n        \"createdAt\": \"14.12.2023 21:12:03\",\r\n        \"updatedAt\": \"14.12.2023 21:12:03\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
 				},
 				"url": "http://localhost:8080/admin/contract"
 			},
@@ -435,6 +440,21 @@
 					}
 				],
 				"url": "http://localhost:8080/contracts/subjects"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Student By Email",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{JWT_TOKEN}}}",
+						"type": "text"
+					}
+				],
+				"url": "http://localhost:8080/students/damian_cotoara@yahoo.ro"
 			},
 			"response": []
 		},
