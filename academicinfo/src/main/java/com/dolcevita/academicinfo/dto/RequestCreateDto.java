@@ -19,9 +19,10 @@ public class RequestCreateDto {
     private Request.RequestType type;
     private MultipartFile file;
 
-    public Request toRequest() throws IOException {
+    public Request toRequest(String name) throws IOException {
         return Request.builder()
                 .studentRegistrationNumber(studentRegistrationNumber)
+                .name(name)
                 .type(type)
                 .status(Request.RequestStatus.PENDING)
                 .file(file.getBytes())

@@ -23,6 +23,7 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String uuid;
+    private String name;
     private Integer studentRegistrationNumber;
     private RequestType type;
     private RequestStatus status;
@@ -37,6 +38,7 @@ public class Request {
     public RequestDto toDto() {
         return RequestDto.builder()
                 .uuid(uuid)
+                .name(name)
                 .studentRegistrationNumber(studentRegistrationNumber)
                 .type(type)
                 .status(status)

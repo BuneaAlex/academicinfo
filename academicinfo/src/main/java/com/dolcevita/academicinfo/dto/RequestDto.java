@@ -16,6 +16,7 @@ import java.util.List;
 public class RequestDto {
 
     private String uuid;
+    private String name;
     private Integer studentRegistrationNumber;
     private Request.RequestType type;
     private Request.RequestStatus status;

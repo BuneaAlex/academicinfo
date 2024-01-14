@@ -26,10 +26,12 @@ public class RequestService {
         try {
             student = studentService.getStudent(extractedMail);
         } catch (ResourceNotFoundException ignored) {
-            student = null;
+            student = new StudentDto();
         }
+        List<Request> requests = requestRepository.findAllByStudentRegistrationNumber(student.getRegistrationNumber());
         requestDto.setStudentRegistrationNumber(student.getRegistrationNumber());
-        return requestRepository.save(requestDto.toRequest()).toDto();
+        int index = requests.size() + 1;
+        return requestRepository.save(requestDto.toRequest("request_" + index + "_" + student.getFirstName() + "_" + student.getSurname())).toDto();
     }
 
     public List<RequestDto> getRequest(String jwt) {
@@ -38,7 +40,7 @@ public class RequestService {
         try {
             student = studentService.getStudent(extractedMail);
         } catch (ResourceNotFoundException ignored) {
-            student = null;
+            student = new StudentDto();
         }
         return requestRepository.findAllByStudentRegistrationNumber(student.getRegistrationNumber())
                 .stream()
