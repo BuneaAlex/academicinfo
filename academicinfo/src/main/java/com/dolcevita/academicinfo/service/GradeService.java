@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,7 @@ public class GradeService {
                 .grade(newGrade.grade())
                 .student(student)
                 .subject(subject)
+                .datePromotion(LocalDateTime.now())
                 .build();
         val created = gradeRepository.save(grade);
         return handleGrade(created);
