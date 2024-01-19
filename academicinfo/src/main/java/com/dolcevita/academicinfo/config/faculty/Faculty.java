@@ -20,7 +20,6 @@ public class Faculty {
         this.groupSplitFactor = groupSplitFactor;
         this.specializations = specializations;
         this.specializations.values().forEach(specialization -> specialization.generateGroups(this.groupSplitFactor));
-        System.out.println("yeah");
     }
 
     public Optional<Specialization> getSpecialization(String identifier) {
