@@ -7,4 +7,6 @@ import java.util.Set;
 
 public interface TimetableRepository extends JpaRepository<Timeslot, Integer> {
     Set<Timeslot> findAllByYearAndSemester(final int year, final int semester);
+
+    Set<Timeslot> findAllByYearAndSemesterAndFormation(final int year, final int semester, final String formation);
 }

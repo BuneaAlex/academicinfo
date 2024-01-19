@@ -1,5 +1,6 @@
 package com.dolcevita.academicinfo.service;
 
+import com.dolcevita.academicinfo.config.AcademicConfig;
 import com.dolcevita.academicinfo.dto.timetable.ExternalClass;
 import com.dolcevita.academicinfo.dto.timetable.ExternalTimeslot;
 import com.dolcevita.academicinfo.dto.timetable.TimetableResult;
@@ -20,7 +21,9 @@ import lombok.val;
 import org.springframework.stereotype.Service;
 
 import java.time.temporal.ChronoField;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -32,6 +35,7 @@ public class TimetableService {
     private final TeacherRepository teacherRepository;
     private final AcademicTimeHandlerService timeHandlerService;
     private final AuthenticationService authenticationService;
+    private final AcademicConfig academicConfig;
 
     public ExternalTimeslot createTimeslot(final ExternalTimeslot newTimeslot) throws InvalidAcademicTimeException {
         val subjectTargeted = subjectRepository.findByUuid(newTimeslot.classDto().classId());
@@ -75,15 +79,46 @@ public class TimetableService {
             log.error("Identity could not be confirmed, cannot resolve timetable");
             throw new NotConfirmedException("Identity could not be confirmed!");
         }
+        val user = identity.get();
+        log.info("Identity confirmed, username={}", user.getUsername());
 
-        val username = identity.get().getUsername();
-        log.info("Identity confirmed, username={}", username);
-        val matchingTimeslots = timetableRepository.findAllByYearAndSemester(year, semester);
-        val resultingTimeslots = matchingTimeslots.stream()
+        //TODO: finish support for other faculties in model.User
+        val temp = "MATE_INFO";
+        val faculty = academicConfig.faculties().get(temp);
+        if (faculty == null) {
+            log.error("DB error: faculty of user={} cannot be resolved, faculty={}", user.getUsername(), temp);
+            throw new ResourceNotFoundException("DB error: faculty could not be resolved!");
+        }
+        val specialization = faculty.getSpecialization(user.getSpecialization());
+        if (specialization.isEmpty()) {
+            log.error("DB error: specialization of user={} cannot be resolved, specialization={}", user.getUsername(), user.getSpecialization());
+            throw new ResourceNotFoundException("DB error: specialization could not be resolved!");
+        }
+        val branch = specialization.get().getBranchByLanguage(user.getLanguage());
+        if (branch.isEmpty()) {
+            log.error("DB error: language of user={} does not correspond to any of the faculty's branches, lang={}", user.getUsername(), user.getLanguage());
+            throw new ResourceNotFoundException("DB error: language could not be resolved!");
+        }
+        val semigroup = branch.get().getSemigroup(user.getGroupNumber(), user.getSemiGroup());
+        if (semigroup.isEmpty()) {
+            log.error("DB error: user={} is incorrectly placed in an invalid semigroup, semigroup={}", user.getUsername(), user.getSemiGroup());
+            throw new ResourceNotFoundException("DB error: semigroup could not be resolved!");
+        }
+        val yearFormation = branch.get().getFormationForYear(user.getYearOfStudy());
+        if (yearFormation.isEmpty()) {
+            log.error("DB error: user={} is in an invalid year of study, year={}", user.getUsername(), user.getYearOfStudy());
+            throw new ResourceNotFoundException("DB error: year of study could not be resolved!");
+        }
+
+        val groupTimeslots = timetableRepository.findAllByYearAndSemesterAndFormation(year, semester, user.getGroupNumber().toString());
+        val semigroupTimeslots = timetableRepository.findAllByYearAndSemesterAndFormation(year, semester, semigroup.get());
+        val yearTimeslots = timetableRepository.findAllByYearAndSemesterAndFormation(year, semester, yearFormation.get());
+        val resultingTimeslots = Stream.of(groupTimeslots, semigroupTimeslots, yearTimeslots)
+                .flatMap(Set::stream)
                 .map(this::handleTimeslot)
                 .collect(Collectors.toSet());
         log.info("Found {} timeslots for year={}, semester={}", resultingTimeslots.size(), year, semester);
-        return new TimetableResult(username, resultingTimeslots);
+        return new TimetableResult(user.getUsername(), resultingTimeslots);
     }
 
     private ExternalClass handleClass(final @NonNull Timeslot timeslot) {

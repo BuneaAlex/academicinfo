@@ -14,13 +14,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudentDto {
-
     private String uuid;
     private String email;
     private int registrationNumber;
     private String firstName;
     private String surname;
-    private User.Specialization specialization;
+    private String specialization;
     private User.Language language;
     private int yearOfStudy;
     private int groupNumber;

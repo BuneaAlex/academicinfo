@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Data
 @Builder
@@ -66,8 +68,7 @@ public class User implements UserDetails {
 
     private String surname;
 
-    @Enumerated(EnumType.STRING)
-    private Specialization specialization;
+    private String specialization;
 
     @Enumerated(EnumType.STRING)
     private Language language;
@@ -145,20 +146,25 @@ public class User implements UserDetails {
                 .build();
     }
 
-    public enum Specialization {
-        COMPUTER_SCIENCE,
-        MATHEMATICS_AND_INFORMATICS,
-        MATHEMATICS
-    }
-
     @Getter
     @AllArgsConstructor
     public enum Language {
         ROMANIAN("ro"),
         ENGLISH("en"),
-        GERMAN("de");
+        GERMAN("de"),
+        HUNGARIAN("hu");
         //baszd meg ez a magyarul nem mukodik
         private final String name;
+
+        public static Optional<Language> fromShortened(String lang) {
+            val shortLangMap = Map.of(
+                    "ro", ROMANIAN,
+                    "en", ENGLISH,
+                    "de", GERMAN,
+                    "hu", HUNGARIAN
+            );
+            return Optional.ofNullable(shortLangMap.get(lang));
+        }
     }
 
     public enum Funding {

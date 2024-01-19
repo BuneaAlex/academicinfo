@@ -43,7 +43,7 @@ academic:
     MATE_INFO:
       name: Facultatea de Matematică și Informatică
       group-split-factor: 2 # default, can be omitted
-      majors:
+      specializations:
         COMPUTER_SCIENCE:
           name: Informatică
           years: 3

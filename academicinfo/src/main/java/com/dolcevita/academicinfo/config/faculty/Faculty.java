@@ -10,22 +10,20 @@ public class Faculty {
     @Getter
     private final String name;
     private Integer groupSplitFactor;
-    private final Map<String, Major> majors;
+    private final Map<String, Specialization> specializations;
 
-    public Faculty(String name, Integer groupSplitFactor, Map<String, Major> majors) {
+    public Faculty(String name, Integer groupSplitFactor, Map<String, Specialization> specializations) {
         this.name = name;
-        this.groupSplitFactor = groupSplitFactor;
-        this.majors = majors;
-    }
-
-    @PostConstruct
-    private void postConstruct() {
         if (groupSplitFactor == null) {
             groupSplitFactor = 2;
         }
+        this.groupSplitFactor = groupSplitFactor;
+        this.specializations = specializations;
+        this.specializations.values().forEach(specialization -> specialization.generateGroups(this.groupSplitFactor));
+        System.out.println("yeah");
     }
 
-    public Optional<Major> getMajor(String identifier) {
-        return Optional.ofNullable(majors.get(identifier));
+    public Optional<Specialization> getSpecialization(String identifier) {
+        return Optional.ofNullable(specializations.get(identifier));
     }
 }
